@@ -18,6 +18,7 @@ class ExecutionRepository:
         intelligence: dict[str, Any],
     ) -> None:
         execution = raw.get("execution") or {}
+        metrics = governance.get("metrics") or {}
         self.store.execute(
             """
             INSERT INTO executions (
@@ -30,11 +31,13 @@ class ExecutionRepository:
                 started_at,
                 ended_at,
                 duration_ms,
+                llm_call_count,
+                tool_call_count,
                 raw_payload,
                 governance_payload,
                 intelligence_payload
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (execution_id) DO UPDATE SET
                 trace_id = EXCLUDED.trace_id,
                 project_id = EXCLUDED.project_id,
@@ -44,6 +47,8 @@ class ExecutionRepository:
                 started_at = EXCLUDED.started_at,
                 ended_at = EXCLUDED.ended_at,
                 duration_ms = EXCLUDED.duration_ms,
+                llm_call_count = EXCLUDED.llm_call_count,
+                tool_call_count = EXCLUDED.tool_call_count
                 raw_payload = EXCLUDED.raw_payload,
                 governance_payload = EXCLUDED.governance_payload,
                 intelligence_payload = EXCLUDED.intelligence_payload
@@ -58,6 +63,8 @@ class ExecutionRepository:
                 execution.get("execution_start"),
                 execution.get("execution_end"),
                 execution.get("total_duration_ms"),
+                self._non_negative_count(metrics.get("llm_calls")),
+                self._non_negative_count(metrics.get("tool_calls")),
                 self._json(raw),
                 self._json(governance),
                 self._json(intelligence),
@@ -94,3 +101,10 @@ class ExecutionRepository:
 
     def _json(self, value: dict[str, Any]) -> Jsonb:
         return Jsonb(value, dumps=lambda item: json.dumps(item, ensure_ascii=False, default=str))
+
+    @staticmethod
+    def _non_negative_count(value: Any) -> int:
+        try:
+            return max(int(value or 0), 0)
+        except (TypeError, ValueError):
+            return 0

@@ -111,6 +111,8 @@ class SchemaRepository:
                     project_id VARCHAR(128) NULL, service_name VARCHAR(255) NULL,
                     environment VARCHAR(64) NULL, status VARCHAR(64) NULL,
                     started_at VARCHAR(64) NULL, ended_at VARCHAR(64) NULL, duration_ms BIGINT NULL,
+                    llm_call_count INTEGER NOT NULL DEFAULT 0,
+                    tool_call_count INTEGER NOT NULL DEFAULT 0,
                     raw_payload JSONB NOT NULL, governance_payload JSONB NOT NULL,
                     intelligence_payload JSONB NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     CONSTRAINT uq_execution_id UNIQUE (execution_id))""",
@@ -126,8 +128,15 @@ class SchemaRepository:
                 "CREATE INDEX IF NOT EXISTS idx_published_execution_topic ON published_events (execution_id, topic)",
             ]
         )
+        self.ensure_ingestion_column("executions", "llm_call_count", "INTEGER NOT NULL DEFAULT 0")
+        self.ensure_ingestion_column("executions", "tool_call_count", "INTEGER NOT NULL DEFAULT 0")
 
     def _ensure_metrics_column(self, table_name: str, column_name: str, column_definition: str) -> None:
         self.metrics.execute(
+            f'ALTER TABLE "{table_name}" ADD COLUMN IF NOT EXISTS "{column_name}" {column_definition}'
+        )
+
+    def ensure_ingestion_column(self, table_name: str, column_name: str, column_definition: str) -> None:
+        self.ingestion.execute(
             f'ALTER TABLE "{table_name}" ADD COLUMN IF NOT EXISTS "{column_name}" {column_definition}'
         )

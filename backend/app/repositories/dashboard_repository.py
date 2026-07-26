@@ -16,8 +16,8 @@ class DashboardRepository:
             SELECT COUNT(*) AS count,
                    COALESCE(SUM(CASE WHEN LOWER(status) IN ('success', 'completed', 'succeeded') THEN 1 ELSE 0 END), 0) AS successful,
                    COALESCE(SUM(CASE WHEN LOWER(status) IN ('failed', 'failure', 'error') THEN 1 ELSE 0 END), 0) AS failed,
-                   COALESCE(SUM(COALESCE((governance_payload #>> '{metrics,llm_calls}')::BIGINT, 0)), 0) AS llm_calls,
-                   COALESCE(SUM(COALESCE((governance_payload #>> '{metrics,tool_calls}')::BIGINT, 0)), 0) AS tool_calls
+                   COALESCE(SUM(llm_call_count), 0) AS llm_calls,
+                   COALESCE(SUM(tool_call_count), 0) AS tool_calls
             FROM executions
             {where}
             """,

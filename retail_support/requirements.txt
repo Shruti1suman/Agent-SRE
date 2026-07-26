@@ -1,4 +1,4 @@
--e ../sdk[langgraph,langchain]
+-e ../sdk[instrumentation]
 python-dotenv>=1.0,<2
 langgraph>=1.0,<2
 langchain-core>=1.0,<2
