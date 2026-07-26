@@ -1,0 +1,5 @@
+-e ../sdk[langgraph,langchain,gemini]
+python-dotenv>=1.0,<2
+langgraph>=1.0,<2
+langchain-core>=1.0,<2
+langchain-google-genai>=4.0,<5

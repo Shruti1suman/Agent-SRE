@@ -1,0 +1,22 @@
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  letter-spacing: 0;
+  background-color: #05090f;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% -10%, rgba(65, 166, 255, 0.24), transparent 30%),
+    radial-gradient(circle at 85% 10%, rgba(105, 230, 211, 0.16), transparent 28%);
+}

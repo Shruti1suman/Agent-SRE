@@ -1,0 +1,111 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentsre-sdk"
+version = "1.0.0"
+description = "AgentSRE Data Collection Plane SDK for Python AI agent applications"
+readme = { text = "Python telemetry SDK for instrumenting AI agent frameworks and exporting canonical AgentSRE execution data.", content-type = "text/markdown" }
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [{ name = "AgentSRE" }]
+keywords = ["agentsre", "observability", "opentelemetry", "openinference", "ai-agents"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+  "pydantic>=2.7,<3",
+  "python-dotenv>=1.0,<2",
+  "httpx>=0.27,<1",
+  "opentelemetry-api>=1.25,<2",
+  "opentelemetry-sdk>=1.25,<2",
+]
+
+[project.optional-dependencies]
+http = [
+  "opentelemetry-instrumentation-requests>=0.46b0",
+  "opentelemetry-instrumentation-httpx>=0.46b0",
+  "opentelemetry-instrumentation-aiohttp-client>=0.46b0",
+  "opentelemetry-instrumentation-sqlalchemy>=0.46b0",
+]
+langgraph = [
+  "langgraph>=0.2",
+]
+langchain = [
+  "openinference-instrumentation-langchain>=0.1.20",
+]
+openai = [
+  "openinference-instrumentation-openai>=0.1.12",
+]
+litellm = [
+  "openinference-instrumentation-litellm>=0.1.0",
+]
+anthropic = [
+  "openinference-instrumentation-anthropic>=0.1.7",
+]
+gemini = [
+  "openinference-instrumentation-google-genai>=0.1.0",
+  "openinference-semantic-conventions>=0.1.12",
+]
+crewai = [
+  "crewai>=0.100",
+  "openinference-instrumentation-litellm>=0.1.0",
+]
+instrumentation = [
+  "opentelemetry-instrumentation-requests>=0.46b0",
+  "opentelemetry-instrumentation-httpx>=0.46b0",
+  "opentelemetry-instrumentation-aiohttp-client>=0.46b0",
+  "opentelemetry-instrumentation-sqlalchemy>=0.46b0",
+  "langgraph>=0.2",
+  "crewai>=0.100",
+  "openinference-instrumentation-langchain>=0.1.20",
+  "openinference-instrumentation-openai>=0.1.12",
+  "openinference-instrumentation-litellm>=0.1.0",
+  "openinference-instrumentation-anthropic>=0.1.7",
+  "openinference-instrumentation-google-genai>=0.1.0",
+  "openinference-semantic-conventions>=0.1.12",
+]
+all = [
+  "opentelemetry-instrumentation-requests>=0.46b0",
+  "opentelemetry-instrumentation-httpx>=0.46b0",
+  "opentelemetry-instrumentation-aiohttp-client>=0.46b0",
+  "opentelemetry-instrumentation-sqlalchemy>=0.46b0",
+  "langgraph>=0.2",
+  "crewai>=0.100",
+  "openinference-instrumentation-langchain>=0.1.20",
+  "openinference-instrumentation-openai>=0.1.12",
+  "openinference-instrumentation-litellm>=0.1.0",
+  "openinference-instrumentation-anthropic>=0.1.7",
+  "openinference-instrumentation-google-genai>=0.1.0",
+  "openinference-semantic-conventions>=0.1.12",
+]
+dev = [
+  "pytest>=8,<9",
+  "pytest-asyncio>=0.23,<1",
+  "opentelemetry-instrumentation-requests>=0.46b0",
+  "opentelemetry-instrumentation-httpx>=0.46b0",
+  "opentelemetry-instrumentation-aiohttp-client>=0.46b0",
+  "opentelemetry-instrumentation-sqlalchemy>=0.46b0",
+  "langgraph>=0.2",
+  "crewai>=0.100",
+  "openinference-instrumentation-langchain>=0.1.20",
+  "openinference-instrumentation-openai>=0.1.12",
+  "openinference-instrumentation-litellm>=0.1.0",
+  "openinference-instrumentation-anthropic>=0.1.7",
+  "openinference-instrumentation-google-genai>=0.1.0",
+  "openinference-semantic-conventions>=0.1.12",
+]
+[tool.hatch.build.targets.wheel]
+packages = ["agentsre_sdk"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
