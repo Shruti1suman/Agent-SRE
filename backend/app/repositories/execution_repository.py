@@ -48,7 +48,7 @@ class ExecutionRepository:
                 ended_at = EXCLUDED.ended_at,
                 duration_ms = EXCLUDED.duration_ms,
                 llm_call_count = EXCLUDED.llm_call_count,
-                tool_call_count = EXCLUDED.tool_call_count
+                tool_call_count = EXCLUDED.tool_call_count,
                 raw_payload = EXCLUDED.raw_payload,
                 governance_payload = EXCLUDED.governance_payload,
                 intelligence_payload = EXCLUDED.intelligence_payload

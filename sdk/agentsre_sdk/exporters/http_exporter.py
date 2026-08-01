@@ -81,6 +81,8 @@ class AgentSREHTTPExporter:
                     response = self._client.post(self.config.backend_url, headers=self.headers, json=body)
                 finally:
                     otel_context.detach(token)
+                if not response.is_success:
+                    logger.error("AGENT SRE backrnd response: %s", response.text)    
                 response.raise_for_status()
                 return True
             except httpx.HTTPError as exc:
