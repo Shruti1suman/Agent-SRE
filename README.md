@@ -2,6 +2,10 @@
 
 AgentSRE is an observability, reliability, incident-analysis, SLO, and governance platform for production AI agents. A lightweight Python SDK captures agent telemetry, the unified FastAPI backend evaluates every run, and the React dashboard turns that evidence into traces, workflow graphs, health scores, incidents, reports, and audit views.
 
+ ## Demo Link
+
+[Click me to see the app!](https://agent-sre.vercel.app/)
+
 ## Contents
 
 - [Why AgentSRE](#why-agentsre)
