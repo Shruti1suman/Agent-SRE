@@ -33,6 +33,7 @@ ORDER_DATABASE = {
     "ORD-1048": {
         "customer": "Aarav Sharma",
         "status": "delivered",
+        "email": "aarvsharma@gmail.com",
         "delivered_days_ago": 4,
         "item": "wireless headphones",
         "amount": 6499,

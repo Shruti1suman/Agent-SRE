@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -16,12 +16,26 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { BrandMark } from "../components/AppShell";
 
+const DEMO_EMAIL = "user@example.com";
+const DEMO_PASSWORD ="User1234";
+
 export default function AuthPage({ mode, setMode, onEnter, colorMode, setColorMode, error, loading, onBack }) {
   const isDark = colorMode === "dark";
   const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(mode === "login" ? DEMO_EMAIL : "");
+  const [password, setPassword] = useState(mode === "login" ? DEMO_PASSWORD : "");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if(mode === "login") {
+      setEmail(DEMO_EMAIL);
+      setPassword(DEMO_PASSWORD);
+    }
+    else{
+      setEmail((value) => (value === DEMO_EMAIL ? "" : value));
+      setPassword((value) => (value === DEMO_PASSWORD ? "" : value));
+    }
+  },[mode]);
 
   const submit = (event) => {
     event.preventDefault();
@@ -74,6 +88,11 @@ export default function AuthPage({ mode, setMode, onEnter, colorMode, setColorMo
           <ToggleButton value="register">Register</ToggleButton>
         </ToggleButtonGroup>
         <Stack component="form" spacing={2} onSubmit={submit}>
+          {mode === "login" ? (
+            <Typography variant = "body2" color="text.secondary">
+              Demo account credentials are auto filled
+            </Typography>
+          ) : null}
           {mode === "register" ? (
             <TextField label="Full name" value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="name" />
           ) : null}

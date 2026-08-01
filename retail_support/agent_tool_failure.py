@@ -32,6 +32,7 @@ ORDER_DATABASE = {
         "customer": "Aarav Sharma",
         "status": "delivered",
         "delivered_days_ago": 4,
+        "email": "aarvsharma@gmail.com",
         "item": "wireless headphones",
         "amount": 6499,
     }
