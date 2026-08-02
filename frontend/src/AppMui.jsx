@@ -325,7 +325,8 @@ function GovernanceDrawer({ open, onClose }) {
 
 export default function AppMui() {
   const [mode, setMode] = useState("dark");
-  const [authed, setAuthed] = useState(Boolean(getStoredToken()));
+  const [authed, setAuthed] = useState(false);
+  const [authChecking, setAuthChecking] = useState(Boolean(getStoredToken()));
   const [authMode, setAuthMode] = useState("login");
   const [authStarted, setAuthStarted] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -446,9 +447,11 @@ export default function AppMui() {
   useEffect(() => {
     if (!getStoredToken()) {
       setAuthed(false);
+      setAuthChecking(false);
       return;
     }
 
+    setAuthChecking(true);
     me()
       .then((payload) => {
         setUser(payload.user);
@@ -461,7 +464,12 @@ export default function AppMui() {
       .catch(() => {
         setStoredToken(null);
         setAuthed(false);
-      });
+        setUser(null);
+        setProjects([]);
+        setDashboardSources(null);
+        selectProject("");
+      })
+      .finally(() => setAuthChecking(false));
   }, [loadProjects]);
 
   useEffect(() => {
@@ -680,7 +688,14 @@ export default function AppMui() {
           }
         })}
       />
-      {!authed ? (
+      {authChecking ? (
+        <Box sx={{ minHeight: "100vh", display: "grid", placeItems: "center", px: 2}} >
+          <Stack spacing={2} alignItems="center">
+            <CircularProgress size={34} />
+            <Typography color="text.secondary">Restoring your session....</Typography>
+          </Stack>
+        </Box>
+      ) : !authed ? (
         authStarted ? (
           <AuthPage
             mode={authMode}

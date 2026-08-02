@@ -53,7 +53,7 @@ function BrandMark({ small = false }) {
   );
 }
 
-function NavContent({ page, setPage, logout, close, user = "sre.lead@redacted.example", projects = [], selectedProjectId = "", onProjectChange }) {
+function NavContent({ page, setPage, logout, close, user, projects = [], selectedProjectId = "", onProjectChange }) {
   const projectValue = projects.some((project) => project.project_id === selectedProjectId) ? selectedProjectId : "";
   return (
     <Stack sx={{ height: "100%", p: 1.6 }} spacing={1.6}>
@@ -105,9 +105,11 @@ function NavContent({ page, setPage, logout, close, user = "sre.lead@redacted.ex
 
       <Divider />
       <Stack spacing={0.8}>
-        <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 650, overflowWrap: "anywhere" }}>
+        {user ? (
+          <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 650, overflowWrap: "anywhere" }}>
           {user}
         </Typography>
+        ) : null}
         <Button startIcon={<LogoutIcon fontSize="small" />} variant="outlined" size="small" onClick={logout}>
           Logout
         </Button>

@@ -242,7 +242,7 @@ function AuthScreen({ mode, setMode, onAuth, toggleTheme }) {
         </div>
         <form className="auth-form" onSubmit={(event) => { event.preventDefault(); onAuth(); }}>
           {mode === "register" && <label>Full name<input type="text" defaultValue="Shrut Suman" autoComplete="name" /></label>}
-          <label>Email<input type="email" defaultValue="sre.lead@redacted.example" autoComplete="email" /></label>
+          <label>Email<input type="email" defaultValue="user@example.com" autoComplete="email" /></label>
           <label>Password<input type="password" autoComplete="current-password" /></label>
           <button className="primary-button" type="submit">{mode === "register" ? "Register" : "Login"}</button>
         </form>
@@ -264,7 +264,7 @@ function Sidebar({ page, setPage, logout }) {
         ))}
       </nav>
       <footer className="sidebar-footer">
-        <span>sre.lead@redacted.example</span>
+        <span>user@example.com</span>
         <button type="button" onClick={logout}><span aria-hidden="true">Out</span> Logout</button>
       </footer>
     </aside>
