@@ -322,7 +322,14 @@ Open `http://localhost:3000`.
 
 ### Install the SDK
 
-From the extracted or cloned repository root, install the bundled SDK. This works without depending on a branch or another remote repository:
+From an externsl agent repository:
+
+```powershell
+pip install "agentsre-sdk[instrumentation] @ git+https://github.com/Shruti1suman/Agent-SRE.git#subdirectory=sdk"
+```
+Or
+
+From the extracted or cloned repository root, install the bundled SDK.
 
 ```text
 pip install -e "sdk[instrumentation]"

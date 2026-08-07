@@ -121,7 +121,7 @@ AGENTSRE_ENVIRONMENT=dev
 # Your agent's model-provider key, when applicable
 GEMINI_API_KEY=<your_gemini_key>
 
-pip install -e "sdk[instrumentation]"
+pip install "agentsre-sdk[instrumentation] @ git+https://github.com/Shruti1suman/Agent-SRE.git#subdirectory=sdk"
 
 import agentsre_sdk
 import os
