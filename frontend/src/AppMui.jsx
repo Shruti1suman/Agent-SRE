@@ -325,7 +325,7 @@ function GovernanceDrawer({ open, onClose }) {
 
 export default function AppMui() {
   const [mode, setMode] = useState("dark");
-  const [authed, setAuthed] = useState(Boolean(getStoredToken()));
+  const [authed, setAuthed] = useState(false);
   const [authMode, setAuthMode] = useState("login");
   const [authStarted, setAuthStarted] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -443,26 +443,11 @@ export default function AppMui() {
     return rows;
   }, [selectProject]);
 
-
   useEffect(() => {
-    if (!getStoredToken()) {
-      setAuthed(false);
-      return;
-    }
-    me()
-      .then((payload) => {
-        setUser(payload.user);
-        setAuthed(true);
-        return loadProjects();
-      })
-      .then((rows) => {
-        setPage(rows.length ? "dashboard" : "create");
-      })
-      .catch(() => {
-        setStoredToken(null);
-        setAuthed(false);
-      });
-  }, [loadProjects]);
+    // This public demo requires explicit login on every fresg login load.
+
+    setStoredToken(null);
+  }, [])
 
 
   useEffect(() => {
