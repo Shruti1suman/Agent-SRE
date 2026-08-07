@@ -32,8 +32,8 @@ import GovernancePage from "./pages/GovernancePage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import { governanceReplayEvents } from "./data";
 import { makeTheme } from "./theme";
-import { getStoredToken, setStoredToken } from "./api/client";
-import { login as loginApi, logout as logoutApi, me, signup as signupApi } from "./api/auth";
+import { setStoredToken } from "./api/client";
+import { login as loginApi, logout as logoutApi, signup as signupApi } from "./api/auth";
 import { createProject, listProjects, regenerateProjectKey } from "./api/projects";
 import { fetchDashboardSources, fetchTraceReplay } from "./api/dashboard";
 import { askIncident, fetchIncidentChat } from "./api/incidents";
@@ -326,7 +326,6 @@ function GovernanceDrawer({ open, onClose }) {
 export default function AppMui() {
   const [mode, setMode] = useState("dark");
   const [authed, setAuthed] = useState(false);
-  const [authChecking, setAuthChecking] = useState(Boolean(getStoredToken()));
   const [authMode, setAuthMode] = useState("login");
   const [authStarted, setAuthStarted] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -445,32 +444,11 @@ export default function AppMui() {
   }, [selectProject]);
 
   useEffect(() => {
-    if (!getStoredToken()) {
-      setAuthed(false);
-      setAuthChecking(false);
-      return;
-    }
+    // This public demo requires explicit login on every fresg login load.
 
-    setAuthChecking(true);
-    me()
-      .then((payload) => {
-        setUser(payload.user);
-        setAuthed(true);
-        return loadProjects();
-      })
-      .then((rows) => {
-        setPage(rows.length ? "dashboard" : "create");
-      })
-      .catch(() => {
-        setStoredToken(null);
-        setAuthed(false);
-        setUser(null);
-        setProjects([]);
-        setDashboardSources(null);
-        selectProject("");
-      })
-      .finally(() => setAuthChecking(false));
-  }, [loadProjects]);
+    setStoredToken(null);
+  }, [])
+
 
   useEffect(() => {
     if (!authed || !selectedProjectId) {
@@ -688,14 +666,7 @@ export default function AppMui() {
           }
         })}
       />
-      {authChecking ? (
-        <Box sx={{ minHeight: "100vh", display: "grid", placeItems: "center", px: 2}} >
-          <Stack spacing={2} alignItems="center">
-            <CircularProgress size={34} />
-            <Typography color="text.secondary">Restoring your session....</Typography>
-          </Stack>
-        </Box>
-      ) : !authed ? (
+     {!authed ? (
         authStarted ? (
           <AuthPage
             mode={authMode}
