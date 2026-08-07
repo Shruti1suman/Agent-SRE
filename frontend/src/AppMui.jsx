@@ -325,7 +325,7 @@ function GovernanceDrawer({ open, onClose }) {
 
 export default function AppMui() {
   const [mode, setMode] = useState("dark");
-  const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState(Boolean(getStoredToken()));
   const [authMode, setAuthMode] = useState("login");
   const [authStarted, setAuthStarted] = useState(false);
   const [authError, setAuthError] = useState("");
