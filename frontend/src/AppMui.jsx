@@ -443,11 +443,26 @@ export default function AppMui() {
     return rows;
   }, [selectProject]);
 
-  useEffect(() => {
-    // This public demo requires explicit login on every fresg login load.
 
-    setStoredToken(null);
-  }, [])
+  useEffect(() => {
+    if (!getStoredToken()) {
+      setAuthed(false);
+      return;
+    }
+    me()
+      .then((payload) => {
+        setUser(payload.user);
+        setAuthed(true);
+        return loadProjects();
+      })
+      .then((rows) => {
+        setPage(rows.length ? "dashboard" : "create");
+      })
+      .catch(() => {
+        setStoredToken(null);
+        setAuthed(false);
+      });
+  }, [loadProjects]);
 
 
   useEffect(() => {
