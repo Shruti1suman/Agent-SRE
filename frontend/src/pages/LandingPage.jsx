@@ -63,7 +63,7 @@ const pipeline = [
   { icon: ShieldOutlinedIcon, step: "04", title: "Operate", text: "Investigate incidents and improve reliability." },
 ];
 
-const sdkExample = `pip install -e "sdk[instrumentation]"
+const sdkExample = `pip install "agentsre-sdk[instrumentation] @ git+https://github.com/Shruti1suman/Agent-SRE.git#subdirectory=sdk"
 
 # Add the generated values to your agent's .env
 AGENTSRE_BACKEND_URL=http://localhost:8081/v1/executions
